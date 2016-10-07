@@ -11,8 +11,10 @@ var slider =  document.getElementById("slider");
 var choice = 0;
 var dimensions = 0;
 var cubeVerts = [];
-var cubeX=-1.1;
-var cubeY=.8;
+var cubeX=w-1;
+var cubeY=1-w - 2*w;
+	var I = 1;
+	var J = 0;
 
 
 window.addEventListener('load', function init()
@@ -131,27 +133,47 @@ window.addEventListener('load', function init()
 function onKeyDown(evt)
 {
 	var key = String.fromCharCode(evt.keyCode);
+
 	//left arrow key
-	
-		if(key==='A')
-		{
-			cubeX+=-.1;
+
 			
-		}
-		if(key==='D')
-		{
-			cubeX+=.1;
-		}
-		if(key==='W')
-		{
-			cubeY+=.1;
-		}
-		if(key==='S')
-		{
-			cubeY+=-.1;
-		}
-		
-		render();
+			if(key==='A' && locations[I][J-1]===0)
+			{	
+				cubeX-=2*w;
+				J--;
+				render();
+				console.log(I,J);
+			
+			}
+			if(key==='D' && locations[I][J+1]===0)
+			{
+				cubeX+=2*w;
+				J++;
+				render();
+				console.log(I,J);
+				
+			}
+			if(key==='W' && locations[I-1][J]===0)
+			{
+				cubeY+=2*w;
+				I--;
+				render();
+				console.log(I,J);
+					
+			}
+			if(key==='S' && locations[I+1][J]===0)
+			{
+				cubeY-=2*w;
+				I++;
+				render();
+				console.log(I,J);
+			}
+			if(I==9 && J===8)
+			{
+				window.alert("You Win! Thanks for playing!");
+			}
+			
+			
 }	
 slider.addEventListener("change", function SlideR()
 	{
@@ -266,7 +288,7 @@ m = mult(rotateX(-30), m);
 				 m = mult( rotateY(-30),m);
 				
 					gl.uniformMatrix4fv(transLoc, false, flatten(m));
-					gl.drawArrays(gl.TRIANGLES, 0, verts.length);
+					gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
 		}
 		else{
 		
@@ -280,7 +302,7 @@ m = mult(rotateX(-30), m);
 				 m = mult( rotateY(-30),m);
 				
 					gl.uniformMatrix4fv(transLoc, false, flatten(m));
-					gl.drawArrays(gl.TRIANGLES, 0, verts.length);
+					gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
 			}
 		}
 				x+=w*2;
@@ -289,6 +311,15 @@ m = mult(rotateX(-30), m);
 			
 			y-=2*w;
 		} 
+		
+		
+		var m = mult(translate(cubeX,cubeY,0) ,scalem(.25,.25,.25));
+		m = mult(rotateX(-30), m);		
+		m = mult(rotateY(-30), m);
+	   
+	    gl.uniformMatrix4fv(transLoc, false, flatten(m));
+		gl.drawArrays(gl.TRIANGLES, verts.length/2, verts.length/2);
+		
 
 	
   }
@@ -343,6 +374,7 @@ m = mult(rotateX(-30), m);
 		} 
 	
 	 }
+	
 	
 
 
