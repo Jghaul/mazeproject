@@ -33,22 +33,27 @@ window.addEventListener('load', function init()
 	// Create a cube
 	//one vec3 for each point of the cube/rectangular prism
 	//look at page 96 for a reccomendation for creating a random maze 
-	locations =
-	[ 	
-	[1,1,1,1,1,1,1,1,1,1],
-	[0,0,1,0,0,0,0,0,1,1 ],
-	[1,0,0,0,1,1,1,0,1,1 ],
-	[1,0,1,0,1,0,0,0,1,1 ],
-	[1,0,1,1,1,1,1,1,0,1 ],
-	[1,0,1,1,0,0,0,1,0,1 ],
-	[1,0,1,1,0,1,0,0,0,1 ],
-	[1,0,0,1,0,1,1,1,1,1 ],
-	[1,1,0,0,0,0,0,0,0,1 ],
-	[1,1,1,1,1,1,1,1,0,1 ]
-	];
 	
 	
 	
+		locations =
+			[ 	
+			[1,1,1,1,1,1,1,1,1,1],
+			[0,0,1,0,0,0,0,0,1,1 ],
+			[1,0,0,0,1,1,1,0,1,1 ],
+			[1,0,1,0,1,0,0,0,1,1 ],
+			[1,0,1,1,1,1,1,1,0,1 ],
+			[1,0,1,1,0,0,0,1,0,1 ],
+			[1,0,1,1,0,1,0,0,0,1 ],
+			[1,0,0,1,0,1,1,1,1,1 ],
+			[1,1,0,0,0,0,0,0,0,1 ],
+			[1,1,1,1,1,1,1,1,0,1 ]
+			];
+	
+	
+
+
+
 	cube(vec3(-w, -w, -w),
 				vec3( w, -w, -w),
 				vec3( w,  w, -w),
@@ -94,9 +99,6 @@ window.addEventListener('load', function init()
 				colors.push(red, red, red, red, red, red);
 				
 	
-	
-	
-
 	
 	// Configure WebGL
 	gl.viewport(0, 0, canvas.width, canvas.height);
@@ -179,7 +181,105 @@ slider.addEventListener("change", function SlideR()
 	{
 		choice = eval(slider.value);
 		console.log(choice);
-		render();
+		
+		if(choice ===0)
+		{
+			I = 1;
+			J=0;
+			w=.07;
+			cubeX=w-1;
+			cubeY=1-w - 2*w;
+			
+			locations =
+			[ 	
+			[1,1,1,1,1,1,1,1,1,1],
+			[0,0,1,0,0,0,0,0,1,1 ],
+			[1,0,0,0,1,1,1,0,1,1 ],
+			[1,0,1,0,1,0,0,0,1,1 ],
+			[1,0,1,1,1,1,1,1,0,1 ],
+			[1,0,1,1,0,0,0,1,0,1 ],
+			[1,0,1,1,0,1,0,0,0,1 ],
+			[1,0,0,1,0,1,1,1,1,1 ],
+			[1,1,0,0,0,0,0,0,0,1 ],
+			[1,1,1,1,1,1,1,1,0,1 ]
+			];
+	}
+	if(choice ===1)
+	{
+		w = .035;
+		I = 1;
+		J=0;
+		cubeX=w-1;
+		cubeY=1-w - 2*w;
+		locations = [];
+		for(var i =0;i<=19;i++)
+		{
+			var tempArray = [];
+	
+			for(var j = 0;j<=19;j++)
+			{
+				if(i===1 && j===0 )
+				{
+					tempArray.push(0);
+				}
+				else if(i===17 && j===19)
+				{
+					tempArray.push(0);	
+				}
+				else if(j===19 || j===0 ||i===0 || i===19)
+				{
+					tempArray.push(1);
+				}
+				else
+				{
+					var random = Math.round(Math.random());
+					tempArray.push(random);
+				}
+				
+			}
+				locations.push(tempArray);
+		}
+		console.log(locations);
+	}
+	if(choice ===2)
+	{
+		I = 1;
+		J=0;
+		w=.015;
+		cubeX=w-1;
+		cubeY=1-w - 2*w;
+		locations=[];
+		for(var i =0;i<=49;i++)
+		{
+			var tempArray = [];
+	
+			for(var j = 0;j<=49;j++)
+			{
+				if(i===1 && j===0 )
+				{
+					tempArray.push(0);
+				}
+				else if(i===47 && j===49)
+				{
+					tempArray.push(0);	
+				}
+				else if(j===49 || j===0 ||i===0 || i===49)
+				{
+					tempArray.push(1);
+				}
+				else
+				{
+					var random = Math.round(Math.random());
+					tempArray.push(random);
+				}
+				
+			}
+				locations.push(tempArray);
+		}
+	}
+
+		
+	render();
 	});	
 
 
@@ -217,167 +317,120 @@ function render(ms)
 	 * Render the scene.
 	 */
 	 if(ms)
-	 {
-		 
-		 	  var elapsed_ms = ms- last_redraw;
-			    last_redraw =ms;
+	{
+		var elapsed_ms = ms- last_redraw;
+		last_redraw =ms;
 		 
 	 }
 	
 	else{last_redraw = performance.now();}
 
-
-	 
-	 //easy difficulty 10x10
-	 if(choice ===0){
-		 w = .07;
-	 var x = w-1;
-	var y = 1-w;
-	for(var i =0;i<=9;i++)
-	{
+	if(choice ===0){
+		w = .07;
+		var x = w-1;
+		var y = 1-w;
 		
-		x = w-1;
-		for(var j = 0;j<=9;j++)
-		{
-			if(locations[i][j]===1)
+		for(var i =0;i<=9;i++)
 			{
-				var m = mult(rotateX(-30), translate(x,y,0));
-				m = mult(rotateY(-30), m);
-				gl.uniformMatrix4fv(transLoc, false, flatten(m));
-				gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
+			
+				x = w-1;
+				
+				for(var j = 0;j<=9;j++)
+				{
+					if(locations[i][j]===1)
+					{
+						var m = mult(rotateX(-30), translate(x,y,0));
+						m = mult(rotateY(-30), m);
+						gl.uniformMatrix4fv(transLoc, false, flatten(m));
+						gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
+					}
+					
+					x+=w*2;
+				}
+				y-=2*w;
 			}
-	 	x+=w*2;
-		}
-		y-=2*w;
-	}
 	
-	
-		
-		 var m = mult(translate(cubeX,cubeY,0) ,scalem(.5,.5,.5));
-m = mult(rotateX(-30), m);		
+
+		var m = mult(translate(cubeX,cubeY,0) ,scalem(.5,.5,.5));
+		m = mult(rotateX(-30), m);		
 		m = mult(rotateY(-30), m);
 	   
 	    gl.uniformMatrix4fv(transLoc, false, flatten(m));
 		gl.drawArrays(gl.TRIANGLES, verts.length/2, verts.length/2);
 	
-	 }
-	//medium difficulty 50x50
-  if (choice ===1) {
-
-	w=.035;
-	var x = w-1;
-	var y = 1-w;
-
-	for(var i =0;i<=19;i++)
-	{
+	}
+	 
+	 	if(choice ===1){
 		
-		x = w-1;
-		for(var j = 0;j<=19;j++)
-		{
-			if(i===2 && j===0 )
+			w = .035;
+			var x = w-1;
+			var y = 1-w;
+	
+			for(var i =0;i<=19;i++)
 			{
-				
-			}
-			else if(i===17 && j===19)
-			{
-				
-			}
-			 else if(j===19 || j===0 ||i===0 || i===19){
-					var m = mult(translate(x,y,0),scalem(w/.07,w/.07,w/.07));
-				m = mult(rotateX(-30), m);
-				 m = mult( rotateY(-30),m);
-				
-					gl.uniformMatrix4fv(transLoc, false, flatten(m));
-					gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
-		}
-		else{
 		
-		
-		var random = Math.round(Math.random());
-			if(random===1)
-			{
-				console.log(random);
-				var m = mult(translate(x,y,0),scalem(w/.07,w/.07,w/.07));
-				m = mult(rotateX(-30), m);
-				 m = mult( rotateY(-30),m);
+				x = w-1;
+				for(var j = 0;j<=19;j++)
+				{
+					if(locations[i][j]===1)
+					{
+						var m = mult(translate(x,y,0),scalem(w/.07,w/.07,w/.07));
+						m = mult(rotateX(-30), m);
+						m = mult( rotateY(-30),m);
 				
-					gl.uniformMatrix4fv(transLoc, false, flatten(m));
-					gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
+						gl.uniformMatrix4fv(transLoc, false, flatten(m));
+						gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
+					}
+				
+					x+=w*2;
+				}
+				y-=2*w;
 			}
-		}
-				x+=w*2;
-			}
-			
-			
-			y-=2*w;
-		} 
-		
-		
+	
 		var m = mult(translate(cubeX,cubeY,0) ,scalem(.25,.25,.25));
 		m = mult(rotateX(-30), m);		
 		m = mult(rotateY(-30), m);
 	   
 	    gl.uniformMatrix4fv(transLoc, false, flatten(m));
 		gl.drawArrays(gl.TRIANGLES, verts.length/2, verts.length/2);
-		
-
 	
-  }
-	//hard difficulty 100x100
-	 if (choice ===2) {
-		w=.015;
-	var x = w-1;
-	var y = 1-w;
-
-	for(var i =0;i<=49;i++)
-	{
-		
-		x = w-1;
-		for(var j = 0;j<=49;j++)
+		}
+		if(choice ===2){
+			
+			w = .015;
+			var x = w-1;
+			var y = 1-w;
+			for(var i =0;i<=49;i++)
 		{
-			if(i===2 && j===0 )
+		
+			x = w-1;
+			
+			for(var j = 0;j<=49;j++)
 			{
-				
-			}
-			else if(i===47 && j===49)
-			{
-				
-			}
-			 else if(j===49 || j===0 ||i===0 || i===49){
+				if(locations[i][j]===1)
+				{
 					var m = mult(translate(x,y,0),scalem(w/.07,w/.07,w/.07));
-				m = mult(rotateX(-30), m);
-				 m = mult( rotateY(-30),m);
-				
+					m = mult(rotateX(-30), m);
+					m = mult( rotateY(-30),m);
+					
 					gl.uniformMatrix4fv(transLoc, false, flatten(m));
-					gl.drawArrays(gl.TRIANGLES, 0, verts.length);
-		}
-		else{
-		
-		
-		var random = Math.round(Math.random());
-			if(random===1)
-			{
-				console.log(random);
-				var m = mult(translate(x,y,0),scalem(w/.07,w/.07,w/.07));
-				m = mult(rotateX(-30), m);
-				 m = mult( rotateY(-30),m);
+					gl.drawArrays(gl.TRIANGLES, 0, verts.length/2);
+				}
 				
-					gl.uniformMatrix4fv(transLoc, false, flatten(m));
-					gl.drawArrays(gl.TRIANGLES, 0, verts.length);
-			}
-		}
 				x+=w*2;
 			}
 			
-			
 			y-=2*w;
-		} 
+		}
 	
-	 }
+	var m = mult(translate(cubeX,cubeY,0) ,scalem(.125,.125,.125));
+	m = mult(rotateX(-30), m);		
+	m = mult(rotateY(-30), m);
+	   
+	gl.uniformMatrix4fv(transLoc, false, flatten(m));
+	gl.drawArrays(gl.TRIANGLES, verts.length/2, verts.length/2);
 	
-	
-
-
+	}
 }
 
 
